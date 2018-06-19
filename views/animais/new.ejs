@@ -1,0 +1,30 @@
+<% include ../partials/header.ejs %>
+
+<div class="container">
+    <div style="width:30%; margin: 0 auto;">
+        <h1 style="margin-bottom:30px; margin-top:20px;">Novo animal</h1>
+        
+        <form action="/adote" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Nome" name="name">
+            </div>    
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Endereço da imagem" name="image">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="number" placeholder="Price" name="price" min="0.1" step="0.1">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Descrição do animal" name="description">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block">Enviar!</button>
+            </div>    
+        </form>
+        
+        <a href="/adote">Voltar</a>
+        
+        
+        <% include ../partials/footer.ejs %>
+    </div>
+</div>

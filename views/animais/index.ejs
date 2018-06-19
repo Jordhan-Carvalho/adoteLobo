@@ -1,0 +1,36 @@
+<% include ../partials/header.ejs %>
+
+
+
+<div class="container-fluid">
+    
+    <div class="jumbotron text-center">
+        <h1>Sejam bem-vindos à LOBO adote.</h1>
+        <p>Adote ou contribua adicionando um animal para a lista!</p>
+        <a href="/adote/novo" class="btn btn-primary btn-lg">Adicione um novo animal</a>
+    </div>
+    
+ <!--fim do jumbotron -->
+  
+   <div class="row text-center">
+    
+    <% for (var i = 0; i<lista.length; i++) { %>
+    
+    <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="card border-secondary mb-3">
+  <img class="card-img-top" src="<%=lista[i].image%>" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"><%=lista[i].name%></h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="/adote/<%= lista[i]._id %>" class="btn btn-primary">Mais informações</a>
+  </div>
+  </div>
+  </div>
+    
+    
+    <% }; %>
+   </div>
+
+</div>
+
+<% include ../partials/footer.ejs %>

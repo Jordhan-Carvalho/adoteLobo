@@ -1,0 +1,21 @@
+<% include ../partials/header.ejs %>
+
+<div class="container">
+    <div style="width:30%; margin: 0 auto;">
+        <h1 style="margin-bottom:30px; margin-top:20px;">Adicione um novo comentário em <%=animal.name%></h1>
+        
+        <form action="/adote/<%=animal._id%>/comments" method="POST">
+            <div class="form-group">
+                <input class="form-control" type="text" placeholder="Comentário" name="comment[text]">
+            </div>    
+            <div class="form-group">
+                <button class="btn btn-primary btn-block">Enviar!</button>
+            </div>    
+        </form>
+        
+        <a href="/adote">Voltar</a>
+        
+        
+        <% include ../partials/footer.ejs %>
+    </div>
+</div>
