@@ -12,7 +12,7 @@ middlewareObj.checkCommentOwnership = function (req, res, next) {
                res.redirect("back");
            }  else {
                // does user own the campground?
-            if(foundComment.author.id.equals(req.user._id)) {
+            if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
                 next();
             } else {
                 req.flash("error","Nao possui permissao");
@@ -42,7 +42,7 @@ middlewareObj.checkAnimalOwnership = function(req, res, next) {
                res.redirect("back");
            }  else {
                // does user own the campground?
-            if(foundAnimal.author.id.equals(req.user._id)) {
+            if(foundAnimal.author.id.equals(req.user._id) || req.user.isAdmin) {
                 next();
             } else {
                 req.flash("error","Nao possui permissão");

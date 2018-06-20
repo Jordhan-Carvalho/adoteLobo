@@ -22,7 +22,7 @@
             
             <p class="card-text"><%= animal.description%></p>
             <p class="card-text"><em>Criado por: <%= animal.author.username%> <%= moment(animal.createdAt).fromNow() %></em></p>
-            <% if (currentUser && animal.author.id.equals(currentUser._id)) { %>
+            <% if (currentUser && animal.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
                     <a class="btn btn-warning btn-sm" href="/adote/<%= animal._id %>/edit">Editar</a>
                     <form class="btndeletar" action="/adote/<%=animal._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger btn-sm">Deletar</button>
@@ -41,7 +41,7 @@
            <h5 class="card-title"><strong><%= comment.author.username %></strong> </h5> 
            <p class="card-text"><%= comment.text %></p>
            <!--//checar se esta logado && ownership-->
-           <% if (currentUser && comment.author.id.equals(currentUser._id)) { %>
+           <% if (currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
            <a class="btn btn-warning btn-sm" href="/adote/<%= animal._id %>/comments/<%= comment._id %>/edit">Editar</a>
            <form class="btndeletar" action="/adote/<%=animal._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-danger btn-sm">Deletar</button>
