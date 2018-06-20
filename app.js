@@ -10,8 +10,10 @@ var express     = require("express"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
     seedDB      = require("./seeds"),
-    methodOverride = require("method-override");
-    
+    methodOverride = require("method-override"),
+    moment = require("moment");
+
+
 // Chamar as routes
 var commentRoutes    = require("./routes/comments"),
     adoteRoutes = require("./routes/adote"),
@@ -22,13 +24,14 @@ var commentRoutes    = require("./routes/comments"),
 var urldb = process.env.DATABASEURL || "mongodb://localhost/animais";
 mongoose.connect(urldb);
 
-
-
+moment.locale('pt-br');    
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); //seed db
+
+
 
 
 // PASSPORT CONFIGURATION
@@ -50,6 +53,7 @@ app.use(function(req, res, next){
   res.locals.currentUser = req.user;
   res.locals.error = req.flash("error");
   res.locals.success = req.flash("success");
+  res.locals.moment = require("moment");
   next();
 });
 

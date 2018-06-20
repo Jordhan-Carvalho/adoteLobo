@@ -17,7 +17,8 @@ var animalSchema = new mongoose.Schema ({
         },
     username: String  
     },
-    price: String
+    price: String,
+    createdAt: { type: Date, default: Date.now }
 });
 
 

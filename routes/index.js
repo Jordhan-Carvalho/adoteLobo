@@ -33,7 +33,7 @@ router.post("/register", function(req, res) {
         if(err){
             // modificando a error msg
             if (err.name=='UserExistsError') {
-             req.flash("error","Usúario já registrado!");
+             req.flash("error","Usuario existente!");
              console.log(err);
             return res.redirect('/register');
             } else {
