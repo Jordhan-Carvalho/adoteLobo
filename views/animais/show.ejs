@@ -21,7 +21,7 @@
             <h5 class="card-title"><span><a><%=animal.name%></a> <h5 class="float-right">R$ <%=animal.price%></h5></span></h5>
             
             <p class="card-text"><%= animal.description%></p>
-            <p class="card-text"><em>Criado por: <%= animal.author.username%> <%= moment(animal.createdAt).fromNow() %></em></p>
+            <p class="card-text"><em>Criado por: <a href="/users/<%=animal.author.id%>"><%= animal.author.username%></a> <%= moment(animal.createdAt).fromNow() %></em></p>
             <% if (currentUser && animal.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
                     <a class="btn btn-warning btn-sm" href="/adote/<%= animal._id %>/edit">Editar</a>
                     <form class="btndeletar" action="/adote/<%=animal._id %>?_method=DELETE" method="POST">
@@ -38,7 +38,7 @@
          <div class="card-header">
             <% animal.comments.forEach(function(comment){ %>
             <span> <p class="float-right">  <%= moment(comment.createdAt).fromNow() %> </p> </span>
-           <h5 class="card-title"><strong><%= comment.author.username %></strong> </h5> 
+           <h5 class="card-title"><strong><a href="/users/<%=comment.author.id%>"><%= comment.author.username %></a></strong> </h5> 
            <p class="card-text"><%= comment.text %></p>
            <!--//checar se esta logado && ownership-->
            <% if (currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
