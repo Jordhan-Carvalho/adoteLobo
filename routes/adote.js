@@ -7,8 +7,23 @@ var middlewareObj = require("../middleware/index");
 
 // INDEX ROUTE
 router.get("/", function(req,res){
-
-//   res.render("adote.ejs", {lista:campgrounds});  
+if (req.query.search) {
+    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+     Animal.find({ "name": regex }, function(err, animal) {
+           if(err) {
+            console.log(err);
+            } else {
+                    if (animal.length<1){
+                    req.flash("error","Animal nao encontrado");
+                     res.redirect("back");
+                      
+                    } else {
+                           res.render("animais/index.ejs", {lista:animal});
+                 }
+            }
+     }); 
+            } else {
+//  render all animals;  
 Animal.find({}, function(err,animal) {
 if(err) {
     console.log(err);
@@ -16,7 +31,7 @@ if(err) {
     res.render("animais/index.ejs", {lista:animal});
 }
 });
-
+}
 });
 
 
@@ -113,6 +128,13 @@ router.delete("/:id", middlewareObj.checkAnimalOwnership, function(req,res) {
     
 });
 
+
+
+
+// helper function for search
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 
