@@ -7,33 +7,48 @@ var middlewareObj = require("../middleware/index");
 
 // INDEX ROUTE
 router.get("/", function(req,res){
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
 if (req.query.search) {
     const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-     Animal.find({ "name": regex }, function(err, animal) {
-           if(err) {
-            console.log(err);
-            } else {
-                    if (animal.length<1){
-                    req.flash("error","Animal nao encontrado");
-                     res.redirect("back");
-                      
-                    } else {
-                           res.render("animais/index.ejs", {lista:animal});
-                 }
-            }
-     }); 
-            } else {
-//  render all animals;  
-Animal.find({}, function(err,animal) {
-if(err) {
-    console.log(err);
-}    else {
-    res.render("animais/index.ejs", {lista:animal});
-}
+    Animal.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allAnimais) {
+            Animal.count({name: regex}).exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                    res.redirect("back");
+                } else {
+                    if(allAnimais.length < 1) {
+                        res.flash("error", "Animal nao encontrado");
+                        res.redirect("back");
+                    }
+                    res.render("animais/index.ejs", {
+                        lista: allAnimais,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        search: req.query.search
+                    });
+                }
+            });
+        });
+    } else {
+        // get all campgrounds from DB
+        Animal.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allAnimais) {
+            Animal.count().exec(function (err, count) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.render("animais/index.ejs", {
+                        lista: allAnimais,
+                        current: pageNumber,
+                        pages: Math.ceil(count / perPage),
+                        search: false
+                    });
+                }
+            });
+        });
+    }
 });
-}
-});
-
 
 // NEW ROUTE
 router.get("/novo", middlewareObj.isLoggedIn, function(req, res) {
