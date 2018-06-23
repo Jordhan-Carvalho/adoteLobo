@@ -3,6 +3,29 @@ var router = express.Router();
 var Animal = require("../models/animal");
 var middlewareObj = require("../middleware/index");
 
+//Cloudinary and multer configuration (Image upload)
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Somente imagens sao permitidas!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+
+var cloudinary = require('cloudinary');
+cloudinary.config({ 
+  cloud_name: 'dt6x7dyxc', 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+//END Cloudinary and multer configuration (Image upload)
 
 
 // INDEX ROUTE
@@ -56,10 +79,14 @@ router.get("/novo", middlewareObj.isLoggedIn, function(req, res) {
 });
 
 
+
 // CREATE ROUTE
-router.post("/",middlewareObj.isLoggedIn, function(req,res){
-    // pegar a data do form e add to campgrounds array
-    // S[o eh possivel com body parser]
+router.post("/",middlewareObj.isLoggedIn,upload.single('image'), function(req,res){
+cloudinary.uploader.upload(req.file.path, function(result) {
+    // add cloudinary url for the image to the campground object under image property
+
+  req.body.image = result.secure_url;
+    
    var name = req.body.name;
    var image = req.body.image;
    var price = req.body.price;
@@ -73,16 +100,16 @@ router.post("/",middlewareObj.isLoggedIn, function(req,res){
    
   Animal.create(newAnimal, function(err,novoanimal){
      if (err) {
-         console.log(err);
+         req.flash("error",err);
+         res.redirect("back");
      }  else {
-        //  novoanimal.author.username = req.user.username;
-        //  novoanimal.author.id = req.user._id;
-        //  novoanimal.save();
+
  
-          res.redirect("/adote");
+          res.redirect("/adote/"+ novoanimal.id);
      }
        
   });
+});
   
 });
 

@@ -12,7 +12,9 @@ var express     = require("express"),
     seedDB      = require("./seeds"),
     methodOverride = require("method-override"),
     moment = require("moment");
-
+    
+    
+require('dotenv').config();
 
 // Chamar as routes
 var commentRoutes    = require("./routes/comments"),
