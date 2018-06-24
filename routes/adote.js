@@ -86,16 +86,18 @@ cloudinary.uploader.upload(req.file.path, function(result) {
     // add cloudinary url for the image to the campground object under image property
 
   req.body.image = result.secure_url;
+  req.body.imageId = result.public_id;
     
    var name = req.body.name;
    var image = req.body.image;
+   var imageId = req.body.imageId;
    var price = req.body.price;
    var description = req.body.description;
    var author = {
        id: req.user._id,
    username: req.user.username
    };
-   var newAnimal = {name:name, image:image, description:description, author:author, price:price};
+   var newAnimal = {name:name, image:image, imageId:imageId, description:description, author:author, price:price};
   
    
   Animal.create(newAnimal, function(err,novoanimal){
@@ -144,21 +146,71 @@ router.get("/:id/edit", middlewareObj.checkAnimalOwnership, function(req,res) {
 });
 
 // update
-router.put("/:id", middlewareObj.checkAnimalOwnership, function(req,res) {
+router.put("/:id", middlewareObj.checkAnimalOwnership, upload.single('image'), function(req,res) {
 
-    Animal.findByIdAndUpdate(req.params.id, req.body, function (err, foundAnimal) {
+ if (req.file) {
+    Animal.findById (req.params.id, function(err, animal) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+    }
+    //delete the file from cloudinary
+    cloudinary.v2.uploader.destroy(animal.imageId, function(err,result) {
         if(err) {
-            console.log(err);
+            req.flash("error",err.message);
+            return res.redirect("back");
+        }
+    //Upload a new one
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+        if(err) {
+            req.flash("error",err.message);
+            return res.redirect("back");
+        }
+    // add cloudinary url for the same image to the animal object under image propety
+    req.body.image = result.secure_url;
+    //add image public_id to animal object
+    req.body.imageId = result.public_id;
+     Animal.findByIdAndUpdate(req.params.id, req.body, function (err, foundAnimal) {
+            if(err) {
+                req.flash("error",err.message);
+                res.redirect("back");
+            } else {
+                req.flash("success","Editado com sucesso");
+                res.redirect("/adote/"+req.params.id);
+            }
+    });
+    });
+    });
+}); } else {
+    
+Animal.findByIdAndUpdate(req.params.id, req.body, function (err, foundAnimal) {
+        if(err) {
+            req.flash("error",err.message);
+            res.redirect("back");
         } else {
+            req.flash("success","Editado com sucesso");
             res.redirect("/adote/"+req.params.id);
         }
-        
-    });
-    
+});
+}
 });
 
 // DELeTE
 router.delete("/:id", middlewareObj.checkAnimalOwnership, function(req,res) {
+    //delete the file from cloudinary
+    Animal.findById (req.params.id, function(err, animal) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("back");
+    }
+    cloudinary.v2.uploader.destroy(animal.imageId, function(err,result) {
+        if(err) {
+            req.flash("error",err.message);
+            return res.redirect("back");
+        }
+    });
+    });
+    //delete animal from db
    Animal.findByIdAndRemove(req.params.id, function(err) {
        if (err) {
            console.log(err);
