@@ -6,6 +6,9 @@ var animalSchema = new mongoose.Schema ({
     image: String,
     imageId: String,
     description: String,
+    sex: String,
+    type: String,
+    age: String,
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +21,6 @@ var animalSchema = new mongoose.Schema ({
         },
     username: String  
     },
-    price: String,
     createdAt: { type: Date, default: Date.now }
 });
 

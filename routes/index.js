@@ -66,7 +66,7 @@ router.post("/register", function(req, res) {
 });
 // login
 router.get("/login", function(req, res) {
-   res.render("authentication/login.ejs") 
+   res.render("authentication/login.ejs"); 
 });
     
 router.post("/login", passport.authenticate("local", {

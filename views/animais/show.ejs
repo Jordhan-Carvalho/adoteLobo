@@ -18,8 +18,12 @@
             <div class="card">
           <img class="card-img-top img-thumbnail" src="<%= animal.image %>" alt="Imagem do animal">
           <div class="card-body">
-            <h5 class="card-title"><span><a><%=animal.name%></a> <h5 class="float-right">R$ <%=animal.price%></h5></span></h5>
-            
+             <% if (animal.sex=="Macho") { %>
+              <h5 class="card-title"><span><a><%=animal.name%><a> <h5 class="float-right"><%=animal.age%>, <i class="fa fa-mars"></i> <%=animal.sex%></h5></span></h5>
+              <% } else { %>
+              <h5 class="card-title"><span><a><%=animal.name%><a> <h5 class="float-right"><%=animal.age%>, <i class="fa fa-venus"></i> <%=animal.sex%></h5></span></h5>
+            <% } %>
+           
             <p class="card-text"><%= animal.description%></p>
             <p class="card-text"><em>Criado por: <a href="/users/<%=animal.author.id%>"><%= animal.author.username%></a> <%= moment(animal.createdAt).fromNow() %></em></p>
             <% if (currentUser && animal.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>

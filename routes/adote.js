@@ -91,13 +91,16 @@ cloudinary.uploader.upload(req.file.path, function(result) {
    var name = req.body.name;
    var image = req.body.image;
    var imageId = req.body.imageId;
+   var type = req.body.type;
+   var age = req.body.age;
+   var sex = req.body.sex;
    var price = req.body.price;
    var description = req.body.description;
    var author = {
        id: req.user._id,
    username: req.user.username
    };
-   var newAnimal = {name:name, image:image, imageId:imageId, description:description, author:author, price:price};
+   var newAnimal = {name:name, image:image, imageId:imageId, description:description, author:author, price:price, type:type, age:age, sex:sex};
   
    
   Animal.create(newAnimal, function(err,novoanimal){
