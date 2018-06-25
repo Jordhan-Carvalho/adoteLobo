@@ -23,6 +23,10 @@ var animalSchema = new mongoose.Schema ({
         },
     username: String  
     },
+    contact: { tel:String,
+        email:String,
+        zap: String
+        },
     createdAt: { type: Date, default: Date.now }
 });
 

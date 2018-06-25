@@ -69,6 +69,43 @@
           </div>
         </div>
         
+        
+  
+<div class="card">
+  <div class="card-header text-center">
+<p>
+ <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+   <i class="fa fa-phone"></i> Telefone
+  </button>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+   <i class="fa fa-envelope"></i> E-mail
+  </button>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
+  <i class="fab fa-whatsapp"></i> Whatsapp
+  </button>
+  </p>
+  </div>
+
+<div class="card-body">
+<div class="collapse" id="collapseExample">
+  <div class="card card-body">
+    <i class="fa fa-phone"></i><%= animal.contact.tel %>
+  </div>
+</div>
+<div class="collapse" id="collapseExample2">
+  <div class="card card-body">
+  <i class="fa fa-envelope"></i> <%= animal.contact.email %>
+  </div>
+</div>
+<div class="collapse" id="collapseExample3">
+  <div class="card card-body">
+    <i class="fab fa-whatsapp"></i><%= animal.contact.zap %>
+  </div>
+</div>
+</div>
+
+</div>
+        
       
      <hr>    
       
