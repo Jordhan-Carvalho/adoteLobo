@@ -5,6 +5,8 @@ var animalSchema = new mongoose.Schema ({
     name: String,
     image: String,
     imageId: String,
+    image2: String,
+    image3: String,
     description: String,
     sex: String,
     type: String,
