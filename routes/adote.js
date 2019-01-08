@@ -28,6 +28,22 @@ cloudinary.config({
 //END Cloudinary and multer configuration (Image upload)
 
 
+
+
+// ==== SECRET INDEX PAGE ===
+router.get("/aprovar", middlewareObj.isAdmin, function(req, res) {
+    Animal.find({}, function (err,animal) {
+       if (err) {
+           req.flash("error", err.message);
+       } else {
+           res.render("animais/aprovar.ejs", {lista:animal}); 
+       }
+        
+    });
+   
+    
+});
+
 // INDEX ROUTE
 router.get("/", function(req,res){
     var perPage = 8;
@@ -228,6 +244,12 @@ router.delete("/:id", middlewareObj.checkAnimalOwnership, function(req,res) {
    }); 
     
 });
+
+
+
+
+
+
 
 
 

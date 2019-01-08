@@ -56,4 +56,12 @@ middlewareObj.checkAnimalOwnership = function(req, res, next) {
     }
 };
 
+middlewareObj.isAdmin = function(req, res, next) {
+    if (req.user && req.user.isAdmin) {
+        return next();
+    }
+    req.flash("error","Você precisa ser Administrador!");
+    res.redirect("/adote");
+};
+
 module.exports = middlewareObj;

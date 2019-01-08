@@ -1,0 +1,61 @@
+<% include ../partials/header.ejs %>
+
+
+
+<div class="container-fluid">
+    
+    <div class="jumbotron text-center">
+        <h1>Sejam bem-vindos à LOBO adote.</h1>
+        <p>Adote ou contribua adicionando um animal para a lista!</p>
+        <a href="/adote/novo" class="btn btn-primary btn-lg">Adicione um novo animal</a>
+    </div>
+    
+ <!--fim do jumbotron -->
+  
+   <div class="row text-center">
+    <div class="col-9">
+                      <h1>ANIMAIS NAO APROVADOS</h1>
+           <div class="row">
+ 
+    <% for (var i = 0; i<lista.length; i++) { %>
+    <% if (!lista[i].approved) { %>
+     
+    <div class="col-sm-6 col-md-4">
+    <div class="card border-secondary mb-3">
+  <img class="card-img-top img-thumbnail img-index" src="<%=lista[i].image%>" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"><%=lista[i].name%></h5>
+    <% if (lista[i].sex=="Macho") { %>
+    <p class="card-text"><i class="fa fa-mars"></i><%= lista[i].sex %>, <%= lista[i].age %></p>
+    <% } else { %>
+    <p class="card-text"><i class="fa fa-venus"></i> <%= lista[i].sex %>, <%= lista[i].age %></p>
+    <% } %>
+    <p><%= lista[i].type %></p>
+    <a href="/adote/<%= lista[i]._id %>" class="btn btn-primary">Mais informações</a>
+  </div>
+  </div>
+  </div>
+    <% }; %>
+    <% }; %>
+     </div>
+     </div>
+    
+   
+  <div class="col-sm-3 sidebar">
+  
+      <img class="img-thumbnail" src="https://www.artifact.com.br/wp-content/uploads/2018/03/FB.jpg">
+      <img class="img-thumbnail" src="https://www.artifact.com.br/wp-content/uploads/2018/03/FB.jpg">
+      <img class="img-thumbnail" src="https://www.artifact.com.br/wp-content/uploads/2018/03/FB.jpg">
+   
+  </div>  
+  
+  
+  
+   </div>
+   
+   
+  
+
+</div>
+
+<% include ../partials/footer.ejs %>

@@ -27,7 +27,8 @@ var animalSchema = new mongoose.Schema ({
         email:String,
         zap: String
         },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    approved: { type: Boolean, default: false }
 });
 
 
